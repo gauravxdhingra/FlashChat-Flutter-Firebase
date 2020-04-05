@@ -11,7 +11,8 @@ class WelcomeScreen extends StatefulWidget {
 class _WelcomeScreenState extends State<WelcomeScreen>
     with SingleTickerProviderStateMixin {
   AnimationController controller;
-  Animation animation;
+  Animation coloranimation;
+  Animation logoanimation;
   @override
   void initState() {
     super.initState();
@@ -20,7 +21,14 @@ class _WelcomeScreenState extends State<WelcomeScreen>
       duration: Duration(seconds: 1),
       // upperBound: 100,
     );
-    animation = CurvedAnimation(parent: controller, curve: Curves.decelerate);
+
+    // animation = CurvedAnimation(parent: controller, curve: Curves.decelerate);
+
+    coloranimation = ColorTween(begin: Colors.blueGrey, end: Colors.white)
+        .animate(controller);
+
+    logoanimation =
+        CurvedAnimation(parent: controller, curve: Curves.easeInOutExpo);
 
     controller.forward();
 
@@ -29,8 +37,8 @@ class _WelcomeScreenState extends State<WelcomeScreen>
       () {
         setState(() {});
         // print(controller.value);
-
-        print(animation.value);
+        print(coloranimation.value);
+        print(logoanimation.value);
       },
     );
 
@@ -56,7 +64,7 @@ class _WelcomeScreenState extends State<WelcomeScreen>
     return Scaffold(
       // backgroundColor: Colors.white.withOpacity(controller.value),
 
-      backgroundColor: Colors.white,
+      backgroundColor: coloranimation.value,
       body: Padding(
         padding: EdgeInsets.symmetric(horizontal: 24.0),
         child: Column(
@@ -69,7 +77,7 @@ class _WelcomeScreenState extends State<WelcomeScreen>
                   tag: 'logo',
                   child: Container(
                     child: Image.asset('images/logo.png'),
-                    height: animation.value * 100,
+                    height: logoanimation.value * 100,
                   ),
                 ),
                 Text(
