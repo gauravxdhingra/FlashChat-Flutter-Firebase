@@ -84,7 +84,7 @@ class _WelcomeScreenState extends State<WelcomeScreen>
                 ),
                 TypewriterAnimatedTextKit(
                   // '${controller.value.toInt()} %',
-                  text: ['Flash Chat'], speed: Duration(milliseconds: 200),
+                  text: ['Flash Chat'], speed: Duration(milliseconds: 300),
                   textStyle: TextStyle(
                     fontSize: 45.0,
                     fontWeight: FontWeight.w900,
