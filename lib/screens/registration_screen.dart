@@ -9,6 +9,9 @@ class RegistrationScreen extends StatefulWidget {
 }
 
 class _RegistrationScreenState extends State<RegistrationScreen> {
+  String email;
+  String password;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -29,16 +32,23 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
             SizedBox(
               height: 48.0,
             ),
-             InputField(
+            InputField(
               hinttextlabel: 'Enter your email',
-              onpressed: (value) {},
+              onpressed: (value) {
+                email = value;
+              },
+              obscuretext: false,
+              kbtp: TextInputType.emailAddress,
             ),
             SizedBox(
               height: 8.0,
             ),
             InputField(
               hinttextlabel: 'Enter your password',
-              onpressed: (value) {},
+              onpressed: (value) {
+                password = value;
+              },
+              obscuretext: true,
             ),
             SizedBox(
               height: 24.0,
@@ -46,6 +56,8 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
             RoundedButton(
               onPressed: () {
                 //Implement registration functionality.
+                print(email);
+                print(password);
               },
               color: Colors.blueAccent,
               title: 'Register',

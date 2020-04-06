@@ -32,6 +32,8 @@ class _LoginScreenState extends State<LoginScreen> {
             InputField(
               hinttextlabel: 'Enter your email',
               onpressed: (value) {},
+              obscuretext: false,
+              kbtp: TextInputType.emailAddress,
             ),
             SizedBox(
               height: 8.0,
@@ -39,6 +41,7 @@ class _LoginScreenState extends State<LoginScreen> {
             InputField(
               hinttextlabel: 'Enter your password',
               onpressed: (value) {},
+              obscuretext: true,
             ),
             SizedBox(
               height: 24.0,
