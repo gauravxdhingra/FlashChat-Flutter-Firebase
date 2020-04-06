@@ -1,6 +1,5 @@
 import 'package:flash_chat/components/input_field.dart';
 import 'package:flash_chat/components/rounded_button.dart';
-import 'package:flash_chat/screens/login_screen.dart';
 import 'package:flutter/material.dart';
 
 class RegistrationScreen extends StatefulWidget {
