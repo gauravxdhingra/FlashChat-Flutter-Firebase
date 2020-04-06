@@ -55,10 +55,10 @@ class _ChatScreenState extends State<ChatScreen> {
               onPressed: () {
                 //Implement logout functionality
 
-                messagesStream();
+                // messagesStream();
 
-                // _auth.signOut();
-                // Navigator.pop(context);
+                _auth.signOut();
+                Navigator.pop(context);
               }),
         ],
         title: Text('⚡️Chat'),
@@ -80,17 +80,23 @@ class _ChatScreenState extends State<ChatScreen> {
                   );
                 } else {
                   final messages = snapshot.data.documents;
-                  List<Text> messageWidgets = [];
+                  List<MesageBubble> messageBubbles = [];
                   for (var message in messages) {
                     final messageText = message.data['text'];
                     final messageSender = message.data['sender'];
-                    final messaeWidget =
-                        Text('$messageText from the $messageSender');
-                    messageWidgets.add(messaeWidget);
+                    final messageBubble = MesageBubble(
+                      sender: messageSender,
+                      text: messageText,
+                    );
+                    messageBubbles.add(messageBubble);
                   }
-                  return Column(
-                    children: messageWidgets,
-                  );
+                  return Expanded(
+                      child: ListView(
+                    padding: EdgeInsets.symmetric(
+                      horizontal: 10,
+                      vertical: 20,
+                    ),
+                  ));
                 }
               },
             ),
@@ -106,12 +112,14 @@ class _ChatScreenState extends State<ChatScreen> {
                         messagetext = value;
                       },
                       decoration: kMessageTextFieldDecoration,
+                      controller: messageTextController,
                     ),
                   ),
                   FlatButton(
                     onPressed: () {
                       //Implement send functionality.
                       // chats sender text
+                      messageTextController.clear();
                       firestore.collection('chats').add(
                           {'text': messagetext, 'sender': loggedInUser.email});
                     },
@@ -125,6 +133,39 @@ class _ChatScreenState extends State<ChatScreen> {
             ),
           ],
         ),
+      ),
+    );
+  }
+}
+
+class MesageBubble extends StatelessWidget {
+  final String sender;
+  final String text;
+
+  const MesageBubble({Key key, this.sender, this.text});
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.all(10.0),
+      child: Column(
+        children: <Widget>[
+          Text(
+            '$sender',
+            style: TextStyle(fontSize: 12, color: Colors.black54),
+          ),
+          Material(
+            borderRadius: BorderRadius.circular(10),
+            elevation: 5,
+            color: Colors.lightBlueAccent,
+            child: Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 20),
+              child: Text(
+                '$text from the $sender',
+                style: TextStyle(fontSize: 50, color: Colors.white),
+              ),
+            ),
+          ),
+        ],
       ),
     );
   }
