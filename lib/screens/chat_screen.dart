@@ -29,10 +29,18 @@ class _ChatScreenState extends State<ChatScreen> {
     }
   }
 
-  void getMessages() async {
-    final messages = await firestore.collection('chats').getDocuments();
-    for (var messages in messages.documents) {
-      print(messages.data);
+  // void getMessages() async {
+  //   final messages = await firestore.collection('chats').getDocuments();
+  //   for (var messages in messages.documents) {
+  //     print(messages.data);
+  //   }
+  // }
+
+  void messagesStream() async {
+    await for (var snapshot in firestore.collection('chats').snapshots()) {
+      for (var message in snapshot.documents) {
+        print(message.data);
+      }
     }
   }
 
@@ -47,7 +55,7 @@ class _ChatScreenState extends State<ChatScreen> {
               onPressed: () {
                 //Implement logout functionality
 
-                getMessages();
+                messagesStream();
 
                 // _auth.signOut();
                 // Navigator.pop(context);
@@ -61,6 +69,31 @@ class _ChatScreenState extends State<ChatScreen> {
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: <Widget>[
+            StreamBuilder<QuerySnapshot>(
+              stream: firestore.collection('chats').snapshots(),
+              builder: (context, snapshot) {
+                if (!snapshot.hasData) {
+                  return Center(
+                    child: CircularProgressIndicator(
+                      backgroundColor: Colors.lightBlueAccent,
+                    ),
+                  );
+                } else {
+                  final messages = snapshot.data.documents;
+                  List<Text> messageWidgets = [];
+                  for (var message in messages) {
+                    final messageText = message.data['text'];
+                    final messageSender = message.data['sender'];
+                    final messaeWidget =
+                        Text('$messageText from the $messageSender');
+                    messageWidgets.add(messaeWidget);
+                  }
+                  return Column(
+                    children: messageWidgets,
+                  );
+                }
+              },
+            ),
             Container(
               decoration: kMessageContainerDecoration,
               child: Row(
