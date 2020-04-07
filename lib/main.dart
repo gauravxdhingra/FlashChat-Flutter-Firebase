@@ -14,6 +14,7 @@ class FlashChat extends StatelessWidget {
       theme: ThemeData.dark().copyWith(
         textTheme: TextTheme(
           body1: TextStyle(color: Colors.black54),
+          body2: TextStyle(color: Colors.white),
         ),
       ),
       initialRoute: WelcomeScreen.routeName,
